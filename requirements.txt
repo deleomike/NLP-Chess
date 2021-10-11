@@ -1,0 +1,3 @@
+stockfish
+numpy
+tqdm
