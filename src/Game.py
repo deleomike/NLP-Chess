@@ -3,16 +3,31 @@ from tqdm import tqdm
 
 import numpy as np
 
+import os
 import time
 
 import argparse
+
+REPO_DIR = os.path.realpath(os.path.join(os.path.realpath(__file__), "..", ".."))
+
+STOCKFISH_BINARY_PATH = os.path.join(REPO_DIR,
+                                     "stockfish_build",
+                                     "stockfish",
+                                     "src",
+                                     "stockfish")
+
+STOCKFISH_BINARY_PATH = os.path.realpath(STOCKFISH_BINARY_PATH)
+
 
 
 class Game:
 
     def __init__(self, threads=2, ELO=1350):
 
-        self.stockfish = Stockfish(parameters={"Threads": threads,
+        print(STOCKFISH_BINARY_PATH)
+
+        self.stockfish = Stockfish(path=STOCKFISH_BINARY_PATH,
+                                   parameters={"Threads": threads,
                                                "Minimum Thinking Time": 30,
                                                "MultiPV": 1,
                                                "Use NNUE": True})
