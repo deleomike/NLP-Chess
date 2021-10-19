@@ -42,6 +42,10 @@ class Game:
 
     def run(self):
 
+        pass
+
+    def run(self):
+
         self.stockfish = Stockfish(path=STOCKFISH_BINARY_PATH,
                                    parameters={"Threads": self.threads,
                                                "Minimum Thinking Time": self.thinking_time,
@@ -109,6 +113,11 @@ if __name__=="__main__":
     all_players_encoded = []
     all_moves = []
     times = []
+
+    f1 = open("dataset_1.txt", 'a')
+    f2 = open("dataset_2.txt", 'a')
+    f3 = open("dataset_3.txt", 'a')
+
     for _ in tqdm(range(args.games)):
         start = time.time()
         moves, fen_positions = game.run()
@@ -116,30 +125,32 @@ if __name__=="__main__":
 
         times.append(stop - start)
 
-        dataset_1.append(" <MOVE_SEP> ".join(moves))
+        # dataset_1.append(" <MOVE_SEP> ".join(moves))
 
         tmp = fen_positions
         tmp = np.array(tmp, dtype=str)
         tmp[::2] = "White"
         tmp[1::2] = "Black"
 
-        all_moves.extend(moves)
-        all_fen_positions.extend(fen_positions)
-        all_players_encoded.extend(list(tmp))
+        # all_moves.extend(moves)
+        # all_fen_positions.extend(fen_positions)
+        # all_players_encoded.extend(list(tmp))
 
         # for fen, move in zip(np.array(fen_positions), np.array(moves)):
         #     dataset_2.append(fen + " <MOVE_SEP> " + move)
 
-    with open("dataset_1.txt", 'w') as f:
-        f.write("\n<SEP>\n".join(dataset_1))
+        f1.write(" <MOVE_SEP> ".join(moves) + "\n<SEP>\n")
+        # dataset_1 = []
 
-    with open("dataset_2.txt", 'w') as f:
-        dataset_2 = map(" <MOVE_SEP> ".join, zip(all_fen_positions, all_moves))
-        f.write("\n<SEP>\n".join(dataset_2))
+        dataset_2 = map(" <MOVE_SEP> ".join, zip(fen_positions, moves))
+        f2.write("\n<SEP>\n".join(dataset_2))
 
-    with open("dataset_3.txt", 'w') as f:
-        all_fen_encoded = map(" ".join, zip(all_fen_positions, all_players_encoded))
-        dataset_3 = map(" <MOVE_SEP> ".join, zip(all_fen_encoded, all_moves))
-        f.write("\n<SEP>\n".join(dataset_3))
+        all_fen_encoded = map(" ".join, zip(fen_positions, list(tmp)))
+        dataset_3 = map(" <MOVE_SEP> ".join, zip(all_fen_encoded, moves))
+        f3.write("\n<SEP>\n".join(dataset_3))
+
+        all_fen_positions = []
+        all_moves = []
+        all_players_encoded = []
 
     print(np.average(times))
