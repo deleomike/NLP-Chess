@@ -1,3 +1,9 @@
 stockfish
 numpy
 tqdm
+transformers
+torch
+torchvision
+torchaudio
+seaborn
+matplotlib
