@@ -1,4 +1,6 @@
 venv/
+env/
 dataset*.txt
 .idea/
 *stockfish/
+*.pgn
