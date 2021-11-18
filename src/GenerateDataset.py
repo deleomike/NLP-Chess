@@ -2,7 +2,7 @@ from stockfish import Stockfish
 from tqdm import tqdm
 
 import numpy as np
-
+import random
 import os
 import time
 
@@ -35,14 +35,33 @@ class Game:
         self.threads = threads
         self.thinking_time = thinking_time
 
+        self.first_moves = [
+            "a2a3",
+            "b2b3",
+            "c2c3",
+            "d2d3",
+            "e2e3",
+            "f2f3",
+            "g2g3",
+            "h2h3",
+            "a2a4",
+            "b2b4",
+            "c2c4",
+            "d2d4",
+            "e2e4",
+            "f2f4",
+            "g2g4",
+            "h2h4",
+            "b1a3",
+            "b1c3",
+            "g1f3",
+            "g1h3"
+        ]
+
         # print(STOCKFISH_BINARY_PATH)
         # self.stockfish.set_depth(20)
         # self.stockfish.set_elo_rating(ELO)
         # self.ELO = ELO
-
-    def run(self):
-
-        pass
 
     def run(self):
 
@@ -67,9 +86,15 @@ class Game:
             # There should be a better way to detect stalemates
 
             FEN_positions.append(self.stockfish.get_fen_position())
-            move = self.stockfish.get_best_move()
 
-            if num_moves > 200:
+            if num_moves == 1:
+                # for the first move
+                index = random.randint(0, len(self.first_moves))
+                move = self.first_moves[index]
+            else:
+                move = self.stockfish.get_best_move()
+
+            if num_moves > 30:
                 eval = self.stockfish.get_evaluation()
                 if eval["type"] == "cp" and eval["value"] == 0:
                     FEN_positions.pop()
@@ -114,9 +139,7 @@ if __name__=="__main__":
     all_moves = []
     times = []
 
-    f1 = open("dataset_1.txt", 'a')
-    f2 = open("dataset_2.txt", 'a')
-    f3 = open("dataset_3.txt", 'a')
+    f3 = open("dataset_fen.txt", 'a')
 
     for _ in tqdm(range(args.games)):
         start = time.time()
@@ -125,29 +148,8 @@ if __name__=="__main__":
 
         times.append(stop - start)
 
-        # dataset_1.append(" <MOVE_SEP> ".join(moves))
-
-        tmp = fen_positions
-        tmp = np.array(tmp, dtype=str)
-        tmp[::2] = "White"
-        tmp[1::2] = "Black"
-
-        # all_moves.extend(moves)
-        # all_fen_positions.extend(fen_positions)
-        # all_players_encoded.extend(list(tmp))
-
-        # for fen, move in zip(np.array(fen_positions), np.array(moves)):
-        #     dataset_2.append(fen + " <MOVE_SEP> " + move)
-
-        f1.write(" <MOVE_SEP> ".join(moves) + "\n<SEP>\n")
-        # dataset_1 = []
-
-        dataset_2 = map(" <MOVE_SEP> ".join, zip(fen_positions, moves))
-        f2.write("\n<SEP>\n".join(dataset_2))
-
-        all_fen_encoded = map(" ".join, zip(fen_positions, list(tmp)))
-        dataset_3 = map(" <MOVE_SEP> ".join, zip(all_fen_encoded, moves))
-        f3.write("\n<SEP>\n".join(dataset_3))
+        dataset_3 = map(" [MOVESEP] ".join, zip(fen_positions, moves))
+        f3.write("\n".join(dataset_3) + "\n")
 
         all_fen_positions = []
         all_moves = []

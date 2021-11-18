@@ -4,3 +4,11 @@ dataset*.txt
 .idea/
 *stockfish/
 *.pgn
+__pycache__
+*.ipynb_checkpoints
+*json
+*pt
+*bin
+*pth
+*vocab.txt
+*merges.txt
