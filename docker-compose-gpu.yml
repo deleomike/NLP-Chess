@@ -1,0 +1,10 @@
+version: "2.5"
+
+services:
+  nlp-chess:
+    runtime: nvidia
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
