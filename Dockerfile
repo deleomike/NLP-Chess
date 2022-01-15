@@ -7,6 +7,8 @@ RUN apt-get install python3.8 python3-pip python3-venv python3-dev zlib1g-dev li
 
 RUN python3 -m venv env
 
+RUN . ./env/bin/activate && pip install --upgrade pip
+
 COPY requirements-cuda.txt requirements.txt
 
 RUN . ./env/bin/activate && \

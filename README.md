@@ -39,6 +39,11 @@ The base string consists of the FEN_position followed by the player color and a 
 
 # BERT-Harmon Training
 
+## DOCKER REQUIREMENTS
+
+docker-compose -- 1.27
+docker -- 20.10.12
+
 ## Setup
 
 1. Make sure docker and docker compose are installed.

@@ -1,8 +1,8 @@
-version: "3.3"
+version: "2.5"
 
 services:
   nlp-chess:
-    #runtime: nvidia
+    runtime: nvidia
     build:
       context: ./
       dockerfile: ./Dockerfile
