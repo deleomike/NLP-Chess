@@ -10,3 +10,5 @@ torchaudio==0.10.0+cu113
 seaborn
 matplotlib
 jupyterlab
+datasets
+ipywidgets
