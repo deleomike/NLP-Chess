@@ -11,7 +11,7 @@ widget:
 
 # BertHarmon
 
-Research done at Johns Hopkins University by Michael DeLeo![iu-13](logo.png)
+Research done at Johns Hopkins University by Michael DeLeo![iu-13](resources/logo.png)
 
 Contact: mdeleo2@jh.edu
 
@@ -25,7 +25,7 @@ Contact: mdeleo2@jh.edu
 
 BertHarmon is a BERT model trained for the task of Chess.
 
-![IMG_0145](chess-example.GIF)
+![IMG_0145](resources/chess-example.GIF)
 
 ## Sample Usage
 
@@ -37,7 +37,48 @@ task("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 White <MOVE_SEP> 
 
 The base string consists of the FEN_position followed by the player color and a move seperator. Finally with the [MASK] token. The mask token is the algebraic notation for a chess move to be taken givent the current board state in FEN Notation
 
-# BERT-Harmon Training
+# Install
+
+Build Stockfish
+```commandline
+cd stockfish_build
+. ./build.sh
+```
+
+Then install the requirements for either a CPU machine or CUDA.
+
+CPU Machine
+```commandline
+pip install -r requirements.txt
+```
+
+CUDA Machine
+```commandline
+pip install -r requirements-cuda.txt
+```
+
+# BERT Training
+
+All our training scripts utilize jupyter notebooks.
+
+```commandline
+jupyter lab
+```
+
+Training requires CUDA 11.3
+
+## NIM
+
+Reference the [Train BERT NIM](./src/bert/Train_BERT_NIM.ipynb) notebook
+
+## Chess
+
+Reference the [Train BERT Chess](./src/bert/Train_BERT.ipynb) notebook
+
+
+# Docker
+
+Using docker is optional, it can help to standardize your environment. The reqs here are not that complicated though.
 
 ## DOCKER REQUIREMENTS
 
@@ -73,13 +114,4 @@ docker compose up --build -f docker-compose-gpu.yml
 ```commandline
 docker compose up -f docker-compose-remote.yml
 ```
-
-### Running
-
-Then open the local jupyter lab server at: http://127.0.0.1:8080
-
-The main notebook for training BERT is /src/bert/train_bert.ipynb
-
-[Resource](https://www.datalearnings.com/how-to-run-tensorflow-using-nvidia-cuda-and-docker-on-windows-wsl/) for running docker with GPU support on windows
-
 
